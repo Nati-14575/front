@@ -1,0 +1,11 @@
+.navbar-custom {
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  background-color: teal;
+  color: white;
+}
+
+.navbar-links {
+  text-decoration: none;
+}

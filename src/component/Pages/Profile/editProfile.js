@@ -20,7 +20,10 @@ class Editprofile extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/users/" + this.props.match.params.id)
+      .get(
+        "https://churchevent14575.herokuapp.com/users/" +
+          this.props.match.params.id
+      )
       .then((result) => {
         this.setState({
           username: result.data.username,

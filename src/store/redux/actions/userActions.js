@@ -21,13 +21,13 @@ export const userLogin = (userData, history) => (dispatch) => {
   dispatch({
     type: LOADING_UI,
   });
-
   axios
-    .post("http://localhost:5000/users/login", {
+    .post("https://churchevent14575.herokuapp.com/users/login", {
       username: userData.username,
       password: userData.password,
     })
     .then((res) => {
+      console.log(res);
       dispatch({
         type: USER_LOGGEDIN,
       });
@@ -35,9 +35,14 @@ export const userLogin = (userData, history) => (dispatch) => {
         type: LOADING_UI,
       });
       dispatch({
-        type: SET_USER,
+        type: "SET_USER",
         user: res.data.data,
       });
+      if (res.data.data.role === "admin") {
+        dispatch({
+          type: "ADMIN_ROLE",
+        });
+      }
       history.push("/");
     })
     .catch((err) => {
@@ -59,9 +64,8 @@ export const userLogin = (userData, history) => (dispatch) => {
 
 export const verifyAccount = (token, history) => (dispatch) => {
   axios
-    .post(`http://localhost:5000/users/verify/${token}`)
+    .post(`https://churchevent14575.herokuapp.com/users/verify/${token}`)
     .then((res) => {
-      console.log("made it here");
       dispatch({
         type: USER_LOGGEDIN,
       });
@@ -86,7 +90,7 @@ export const userSignup = (userData, history) => (dispatch) => {
   });
 
   axios
-    .post("http://localhost:5000/users/add", {
+    .post("https://churchevent14575.herokuapp.com/users/add", {
       email: userData.email,
       username: userData.username,
       password: userData.password,
@@ -99,6 +103,7 @@ export const userSignup = (userData, history) => (dispatch) => {
       history.push("/users/verify");
     })
     .catch((err) => {
+      console.log(err);
       dispatch({
         type: SET_ERRORS,
         error: err.response.data.message,
@@ -113,7 +118,7 @@ export const userSignup = (userData, history) => (dispatch) => {
 
 export const userLogout = (history) => (dispatch) => {
   axios
-    .get("http://localhost:5000/users/logout")
+    .post("https://churchevent14575.herokuapp.com/users/logout")
     .then(() => {
       dispatch({ type: USER_LOGGEDOUT });
       dispatch({ type: REMOVE_USER });
@@ -144,7 +149,7 @@ export const editUser = (userDetails) => (dispatch) => {
   });
 
   axios
-    .patch("http://localhost:5000/users/", userDetails)
+    .patch("https://churchevent14575.herokuapp.com/users/", userDetails)
     .then((res) => {
       dispatch({
         type: SET_USER,
@@ -164,7 +169,9 @@ export const forgetPass = (email, history) => (dispatch) => {
   });
 
   axios
-    .post("http://localhost:5000/users/forgot-password", { email })
+    .post("https://churchevent14575.herokuapp.com/users/forgot-password", {
+      email,
+    })
     .then((res) => {
       dispatch({
         type: LOADING_UI,
@@ -193,7 +200,10 @@ export const resetPass = (token, newPass, history) => (dispatch) => {
     type: LOADING_UI,
   });
   axios
-    .patch(`http://localhost:5000/users/reset-password/${token}`, newPass)
+    .patch(
+      `https://churchevent14575.herokuapp.com/users/reset-password/${token}`,
+      newPass
+    )
     .then((res) => {
       dispatch({
         type: USER_LOGGEDIN,

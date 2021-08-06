@@ -23,18 +23,23 @@ class event extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/events/" + this.props.match.params.id)
+      .get(
+        "https://churchevent14575.herokuapp.com/events/" +
+          this.props.match.params.id
+      )
       .then((result) => {
         this.setState({
           event: result.data,
         });
       });
 
-    axios.get("http://localhost:5000/comments/").then((result) => {
-      this.setState({
-        comments: result.data,
+    axios
+      .get("https://churchevent14575.herokuapp.com/comments/")
+      .then((result) => {
+        this.setState({
+          comments: result.data,
+        });
       });
-    });
   }
 
   onChangeComment = (event) => {
@@ -45,7 +50,7 @@ class event extends Component {
 
   deleteEvent = (id) => {
     axios
-      .delete("http://localhost:5000/events/" + id)
+      .delete("https://churchevent14575.herokuapp.com/events/" + id)
       .then((result) => console.log(result.data));
     this.props.history.push("/events");
   };
@@ -60,7 +65,7 @@ class event extends Component {
       };
 
       axios
-        .post("http://localhost:5000/comments/add", newComment)
+        .post("https://churchevent14575.herokuapp.com/comments/add", newComment)
         .then((result) => {
           this.setState({ commentPosted: true });
           setTimeout(() => this.setState({ commentPosted: false }), 2000);
@@ -136,15 +141,16 @@ class event extends Component {
             className={classes.txt_field}
           />
           <span></span>
-          <Button
-            onClick={this.onSubmit}
-            variant="contained"
-            color="primary"
-            // disabled={this.props.loading}
-            className={classes.postButton}
-          >
-            comment
-          </Button>
+          <center>
+            <Button
+              onClick={this.onSubmit}
+              variant="contained"
+              color="primary"
+              className={classes.postButton}
+            >
+              comment
+            </Button>
+          </center>
         </div>
         <div className={classes.commentShower}>
           <h3>Comments</h3>

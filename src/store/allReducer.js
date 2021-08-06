@@ -1,5 +1,3 @@
-import React from "react";
-
 const initialState = {
   isAuthenticated: false,
   adminrole: false,
@@ -12,6 +10,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: false,
+        currentUser: {},
       };
     case "USER_LOGGEDIN":
       return {
@@ -26,7 +25,7 @@ const reducer = (state = initialState, action) => {
     case "REMOVE_USER":
       return {
         ...state,
-        currentUser: null,
+        currentUser: {},
       };
     case "ADMIN_ROLE":
       return {

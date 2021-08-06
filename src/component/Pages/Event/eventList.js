@@ -17,7 +17,7 @@ class editEvent extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/events/")
+      .get("https://churchevent14575.herokuapp.com/events/")
       .then((result) => {
         this.setState({
           events: result.data,
@@ -29,7 +29,7 @@ class editEvent extends Component {
   }
   componentWillUnmount() {
     axios
-      .get("http://localhost:5000/events/")
+      .get("https://churchevent14575.herokuapp.com/events/")
       .then((result) => {
         this.setState({
           events: result.data,

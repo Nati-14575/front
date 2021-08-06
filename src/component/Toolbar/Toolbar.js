@@ -6,6 +6,12 @@ import { connect } from "react-redux";
 import classes from "./Toolbar.module.css";
 import Drawertoggle from "./Sidedrawer/Drawertoggle";
 import logo from "../../assets/Toolbar/logo.png";
+import eventIcon from "../../assets/Toolbar/event.png";
+import loginIcon from "../../assets/Toolbar/login.png";
+import signupIcon from "../../assets/Toolbar/signup.png";
+import editIcon from "../../assets/Toolbar/edit.png";
+import exitIcon from "../../assets/Toolbar/exit.png";
+import { userLogout } from "../../store/redux/actions/userActions";
 
 class toolbar extends Component {
   constructor(props) {
@@ -15,13 +21,6 @@ class toolbar extends Component {
       loginPage: true,
     };
   }
-
-  setOff = () => {
-    this.props.setAuthentication();
-    this.props.setRole();
-    this.props.setUser();
-    this.props.history.push("/");
-  };
 
   loginLogoChecker = () => {
     if (window.location.pathname === "/user/login") {
@@ -34,6 +33,7 @@ class toolbar extends Component {
   };
 
   render() {
+    const { reducer } = this.props;
     let checker;
     return (
       <header className={classes.toolbar}>
@@ -56,18 +56,15 @@ class toolbar extends Component {
           <div className={classes.toolbar_navigation_items}>
             <ul>
               <li>
-                <Link to="/" className={classes.toolbar_navigation_link}>
-                  Home
-                </Link>
-              </li>
-              <li>
                 <Link to="/events" className={classes.toolbar_navigation_link}>
-                  Events
+                  <div className={classes.iconContainer}>
+                    <img src={eventIcon} />
+                  </div>
                 </Link>
               </li>
-              {this.props.reducer.isAuthenticated ? (
+              {reducer.isAuthenticated ? (
                 <>
-                  {this.props.reducer.adminrole && (
+                  {reducer.adminrole && (
                     <li>
                       <Link
                         to="/create"
@@ -78,24 +75,25 @@ class toolbar extends Component {
                     </li>
                   )}
                   <li>
-                    {this.props.reducer.isAuthenticated && (
+                    {reducer.isAuthenticated && (
                       <Link
-                        to={
-                          "/user/editprofile/" +
-                          this.props.reducer.currentUser._id
-                        }
+                        to={"/user/editprofile/" + reducer.currentUser._id}
                         className={classes.toolbar_navigation_link}
                       >
-                        Edit Profile
+                        <div className={classes.iconContainer}>
+                          <img src={editIcon} />
+                        </div>
                       </Link>
                     )}
                   </li>
                   <li>
                     <a
-                      onClick={this.setOff}
+                      onClick={this.props.userLogout}
                       className={classes.toolbar_navigation_link}
                     >
-                      Log out
+                      <div className={classes.iconContainer}>
+                        <img src={exitIcon} />
+                      </div>
                     </a>
                   </li>
                 </>
@@ -106,7 +104,9 @@ class toolbar extends Component {
                       to="/user/login"
                       className={classes.toolbar_navigation_link}
                     >
-                      Login
+                      <div className={classes.iconContainer}>
+                        <img src={loginIcon} />
+                      </div>
                     </Link>
                   </li>
                   <li>
@@ -114,7 +114,9 @@ class toolbar extends Component {
                       to="/user/signup"
                       className={classes.toolbar_navigation_link}
                     >
-                      Signup
+                      <div className={classes.iconContainer}>
+                        <img src={signupIcon} />
+                      </div>
                     </Link>
                   </li>
                 </>
@@ -131,15 +133,9 @@ const mapStateToProps = (state) => {
     reducer: state.AR,
   };
 };
-
-const mapStateToDispatch = (dispatch) => {
-  return {
-    setAuthentication: () => dispatch({ type: "USER_LOGGEDOUT" }),
-    setRole: () => dispatch({ type: "USER_ROLE" }),
-    setUser: () => dispatch({ type: "REMOVE_USER" }),
-  };
+const mapStateToDispatch = {
+  userLogout,
 };
-
 export default connect(
   mapStateToProps,
   mapStateToDispatch

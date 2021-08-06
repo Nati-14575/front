@@ -3,6 +3,8 @@ import classes from "./form.module.css";
 import logo from "../../../assets/Toolbar/logo.png";
 import { connect } from "react-redux";
 import { userSignup } from "../../../store/redux/actions/userActions";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class signup extends Component {
   constructor(props) {
@@ -103,12 +105,22 @@ class signup extends Component {
               <label>Confirm Password: </label>
             </div>
 
-            <div className="form-group">
-              <input
+            <div className={classes.signup_link}>
+              <Button
                 type="submit"
-                value="Create User"
-                className={classes.submit}
-              />
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                disabled={UI.loading && true}
+              >
+                Signup
+                {UI.loading && (
+                  <CircularProgress
+                    className={classes.progress}
+                    size={25}
+                  ></CircularProgress>
+                )}
+              </Button>
             </div>
           </form>
         </div>

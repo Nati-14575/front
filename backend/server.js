@@ -12,14 +12,12 @@ const DATABASE =
 const DATABASE_LOCAL = "mongodb://localhost:27017/mern";
 
 mongoose
-  .connect(DATABASE_LOCAL, {
+  .connect(DATABASE, {
     useNewUrlParser: true,
     useFindAndModify: true,
     useCreateIndex: true,
   })
-  .then(() => {
-    console.log("Connected to database successfully");
-  });
+  .then(() => {});
 
 const PORT = process.env.PORT || 5000;
 
@@ -33,5 +31,8 @@ app.use("/comments", CommentRoute);
 
 //
 app.listen(PORT, () => {
-  console.log("Connected successful");
+  res.json({
+    status: "success",
+    message: "Connected succesfull",
+  });
 });

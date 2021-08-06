@@ -6,7 +6,6 @@ import eventList from "./component/Pages/Event/eventList";
 import editEvent from "./component/Pages/Event/editEvent";
 import createEvent from "./component/Pages/Event/createEvent";
 import signUp from "./component/Pages/Profile/signUp";
-import homePage from "./component/Pages/Home/homePage";
 import login from "./component/Pages/Profile/login";
 import editProfile from "./component/Pages/Profile/editProfile";
 import anevent from "./component/Pages/Event/event";
@@ -50,7 +49,7 @@ class App extends Component {
         {sideDrawer}
         {backDrop}
 
-        <Route exact path="/" exact component={homePage} />
+        <Route exact path="/" exact component={eventList} />
         <Route exact path="/event/:id" exact component={anevent} />
         <Route exact path="/edit/:id" exact component={editEvent} />
         <Route exact path="/events" exact component={eventList} />

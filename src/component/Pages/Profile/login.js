@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import classes from "./form.module.css";
 import logo from "../../../assets/Toolbar/logo.png";
 import { userLogin } from "../../../store/redux/actions/userActions";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class login extends Component {
   constructor(props) {
@@ -68,7 +70,23 @@ class login extends Component {
               <Link to="/users/forgotpassword">forgot password?</Link>
             </div>
             <div className={classes.signup_link}>
-              <input type="submit" value="Log in" className={classes.submit} />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                disabled={UI.loading && true}
+              >
+                login
+                {UI.loading && (
+                  <CircularProgress
+                    className={classes.progress}
+                    size={25}
+                  ></CircularProgress>
+                )}
+              </Button>
+              <br />
+              <br />
               <label>Don't have an account?</label>
               <Link to="../user/signup">Sign Up</Link>
             </div>

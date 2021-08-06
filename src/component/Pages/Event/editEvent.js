@@ -27,7 +27,10 @@ class editEventComponent extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/events/" + this.props.match.params.id)
+      .get(
+        "https://git.heroku.com/churchevent14575.git/events/" +
+          this.props.match.params.id
+      )
       .then((response) => {
         console.log(response.data.username);
         this.setState({
@@ -55,7 +58,6 @@ class editEventComponent extends Component {
       location: event.target.value,
     });
   };
-  
 
   onChangeDescription = (event) => {
     this.setState({
@@ -113,11 +115,7 @@ class editEventComponent extends Component {
               <label>Poster name: </label>
             </div>
             <div className={classes.txt_field}>
-              <input
-                type="text"
-                required
-                value={this.state.eventname}
-              />
+              <input type="text" required value={this.state.eventname} />
               <span></span>
               <label>Event name: </label>
             </div>

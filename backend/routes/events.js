@@ -3,15 +3,15 @@ let Event = require("../models/eventModel");
 
 // Get events
 
-router.route("/").get((req, res, next) => {
-  Event.find()
+router.route("/").get(async (req, res, next) => {
+  await Event.find().sort('-createdAt')
     .then((events) => res.json(events))
     .catch((err) => res.status(400).json("error" + err));
 });
 
 // Post an event
 
-router.route("/add").post((req, res, next) => {
+router.route("/add").post(async (req, res, next) => {
   const username = req.body.username;
   const eventname = req.body.eventname;
   const location = req.body.location;
@@ -28,7 +28,7 @@ router.route("/add").post((req, res, next) => {
     location,
   });
 
-  createdEvent
+  await createdEvent
     .save()
     .then(() => res.json("Event added"))
     .catch((err) => res.status(400).json("Error" + err));
@@ -36,16 +36,16 @@ router.route("/add").post((req, res, next) => {
 
 // Get and display one event by id
 
-router.route("/:id").get((req, res) => {
-  Event.findById(req.params.id)
+router.route("/:id").get(async (req, res) => {
+  await Event.findById(req.params.id)
     .then((event) => res.json(event))
     .catch((err) => res.status(400).json("error" + err));
 });
 
 // Find event and update it by using id
 
-router.route("/:id").patch((req, res) => {
-  Event.findByIdAndUpdate(req.params.id).then((event) => {
+router.route("/add/:id").patch(async (req, res) => {
+  await Event.findByIdAndUpdate(req.params.id).then((event) => {
     event.username = req.body.username;
     event.description = req.body.description;
     event.duration = Number(req.body.duration);
@@ -60,8 +60,8 @@ router.route("/:id").patch((req, res) => {
 
 // Delete Event
 
-router.route("/:id").delete((req, res) => {
-  Event.findByIdAndDelete(req.params.id)
+router.route("/:id").delete(async (req, res) => {
+  await Event.findByIdAndDelete(req.params.id)
     .then(() => res.json("event deleted"))
     .catch((err) => res.status(400).json("error" + err));
 });

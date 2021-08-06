@@ -1,8 +1,9 @@
 import React from "react";
+import classes from "./homePage.module.css";
 
 const homePage = (props) => {
   return (
-    <div>
+    <div className={classes.homePage}>
       <label>This is the home page!</label>
     </div>
   );

@@ -1,35 +1,74 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { connect } from "react-redux";
-
+import classes from "./App.module.css";
 // Component Import
-import Navbar from "./component/navbarComponent";
-import eventList from "./component/eventList";
-import editEvent from "./component/editEvent";
-import createEvent from "./component/createEvent";
-import signUp from "./component/signUp";
-import homePage from "./component/homePage";
-import login from "./component/login";
-import editProfile from "./component/editProfile";
-import anevent from "./component/event";
-
-import "./App.css";
+import eventList from "./component/Pages/Event/eventList";
+import editEvent from "./component/Pages/Event/editEvent";
+import createEvent from "./component/Pages/Event/createEvent";
+import signUp from "./component/Pages/Profile/signUp";
+import homePage from "./component/Pages/Home/homePage";
+import login from "./component/Pages/Profile/login";
+import editProfile from "./component/Pages/Profile/editProfile";
+import anevent from "./component/Pages/Event/event";
+import Sidedrawer from "./component/Toolbar/Sidedrawer/Sidedrawer";
+import Toolbar from "./component/Toolbar/Toolbar";
+import Backdrop from "./component/Backdrop/Backdrop";
+import Footer from "./component/Footer/Footer";
+import ResetPassword from "./component/Pages/Profile/resetPassword";
+import forgotPassword from "./component/Pages/Profile/forgotPassword";
+import verifyAccount from "./component/Pages/Profile/verifyAccount";
 
 class App extends Component {
+  state = {
+    sideDrawerOpen: false,
+  };
+
+  drawerToggelClickHandler = () => {
+    this.setState((prevState) => {
+      return {
+        sideDrawerOpen: !prevState.sideDrawerOpen,
+      };
+    });
+  };
+
+  backDropClickHandler = () => {
+    this.setState({
+      sideDrawerOpen: false,
+    });
+  };
   render() {
+    let sideDrawer;
+    let backDrop;
+    if (this.state.sideDrawerOpen) {
+      sideDrawer = <Sidedrawer />;
+      backDrop = <Backdrop backDropClickHandler={this.backDropClickHandler} />;
+    }
     return (
       <Router>
-        <div className="container">
-          <Navbar />
-          <Route path="/" exact component={homePage} />
-          <Route path="/events" exact component={eventList} />
-          <Route path="/event/:id" exact component={anevent} />
-          <Route path="/edit/:id" exact component={editEvent} />
-          <Route path="/create" exact component={createEvent} />
-          <Route path="/user/signUp" exact component={signUp} />
-          <Route path="/user/login" exact component={login} />
-          <Route path="/user/editprofile/:id" exact component={editProfile} />
-        </div>
+        {/* <div className={classes.container}> */}
+        <Toolbar onDrawerToggleCLicked={this.drawerToggelClickHandler} />
+        {sideDrawer}
+        {backDrop}
+
+        <Route exact path="/" exact component={homePage} />
+        <Route exact path="/event/:id" exact component={anevent} />
+        <Route exact path="/edit/:id" exact component={editEvent} />
+        <Route exact path="/events" exact component={eventList} />
+        <Route exact path="/create" exact component={createEvent} />
+        <Route exact path="/user/signUp" exact component={signUp} />
+        <Route exact path="/user/login" exact component={login} />
+        <Route
+          exact
+          path="/user/editprofile/:id"
+          exact
+          component={editProfile}
+        />
+        <Route path="/users/verify" component={verifyAccount} />
+        <Route exact path="/users/forgotpassword" component={forgotPassword} />
+        <Route path="/users/resetpassword" component={ResetPassword} />
+
+        <Footer />
+        {/* </div> */}
       </Router>
     );
   }

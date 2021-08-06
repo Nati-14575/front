@@ -3,6 +3,8 @@ import { Component } from "react";
 import axios from "axios";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
+import classes from "./form.module.css";
+import logo from "../../../assets/Toolbar/logo.png";
 
 class Editprofile extends Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class Editprofile extends Component {
     this.state = {
       username: "",
       password: "",
+      loginError: false,
       confirm_password: "",
       users: [],
     };
@@ -18,7 +21,11 @@ class Editprofile extends Component {
   componentDidMount() {
     axios
       .get("http://localhost:5000/users/" + this.props.match.params.id)
-      .then((result) => this.setState({ username: result.data.username }));
+      .then((result) => {
+        this.setState({
+          username: result.data.username,
+        });
+      });
   }
 
   onChangeUserName = (event) => {
@@ -52,16 +59,17 @@ class Editprofile extends Component {
 
       axios
         .patch(
-          "http://localhost:5000/users/" + this.props.match.params.id,
+          "https://churchevent14575.herokuapp.com/users/add/" +
+            this.props.match.params.id,
           user
         )
         .then((result) => console.log(result.data))
         .catch((err) => console.log(err));
       this.props.history.push("/");
-    } else if (this.state.password.length < 8) {
-      console.log("Minimum password length is 8");
-    } else if (this.state.password !== this.state.confirm_password) {
-      console.log("Passwords did not match");
+    } else {
+      this.setState({
+        signupError: true,
+      });
     }
     this.setState({
       username: "",
@@ -72,50 +80,57 @@ class Editprofile extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Edit Profile</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>User name: </label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUserName}
-            />
-          </div>
+      <div className={classes.container}>
+        <div className={classes.imgContainer}>
+          <img src={logo} />
+        </div>
+        <div className={classes.center}>
+          <h1>Edit Profile</h1>
+          {this.state.signupError && (
+            <div className={classes.error}>
+              <label>Incorrect Credentials</label>
+            </div>
+          )}
+          <form onSubmit={this.onSubmit}>
+            <div className={classes.txt_field}>
+              <input
+                type="text"
+                required
+                value={this.state.username}
+                onChange={this.onChangeUserName}
+              />
+              <span></span>
+              <label>Username: </label>
+            </div>
 
-          <div className="form-group">
-            <label>Password: </label>
-            <input
-              type="password"
-              required
-              className="form-control"
-              value={this.state.password}
-              onChange={this.onChangePassword}
-            />
-          </div>
+            <div className={classes.txt_field}>
+              <input
+                type="password"
+                required
+                value={this.state.password}
+                onChange={this.onChangePassword}
+              />
+              <span></span>
+              <label>Password: </label>
+            </div>
 
-          <div className="form-group">
-            <label>Confirm Password: </label>
-            <input
-              type="password"
-              required
-              className="form-control"
-              value={this.state.confirm_password}
-              onChange={this.onChangeConfirmPassword}
-            />
-          </div>
-
-          <div className="form-group">
+            <div className={classes.txt_field}>
+              <input
+                type="password"
+                required
+                value={this.state.confirm_password}
+                onChange={this.onChangeConfirmPassword}
+              />
+              <span></span>
+              <label>Confirm Password: </label>
+            </div>
             <input
               type="submit"
               value="Save Profile"
-              className="btn btn-primary"
+              className={classes.submit}
             />
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     );
   }
@@ -123,7 +138,7 @@ class Editprofile extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    reducer: state,
+    reducer: state.AR,
   };
 };
 

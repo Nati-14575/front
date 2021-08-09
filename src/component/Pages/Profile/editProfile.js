@@ -83,58 +83,57 @@ class Editprofile extends Component {
 
   render() {
     return (
-      <div className={classes.container}>
-        <div className={classes.imgContainer}>
-          <img src={logo} />
-        </div>
-        <div className={classes.center}>
-          <h1>Edit Profile</h1>
-          {this.state.signupError && (
-            <div className={classes.error}>
-              <label>Incorrect Credentials</label>
-            </div>
-          )}
-          <form onSubmit={this.onSubmit}>
-            <div className={classes.txt_field}>
-              <input
-                type="text"
-                required
-                value={this.state.username}
-                onChange={this.onChangeUserName}
-              />
-              <span></span>
-              <label>Username: </label>
-            </div>
+      <React.Fragment>
+        <div className={classes.container}>
+          <div className={classes.center}>
+            <h1>Edit Profile</h1>
+            {this.state.signupError && (
+              <div className={classes.error}>
+                <label>Incorrect Credentials</label>
+              </div>
+            )}
+            <form onSubmit={this.onSubmit}>
+              <div className={classes.txt_field}>
+                <input
+                  type="text"
+                  required
+                  value={this.state.username}
+                  onChange={this.onChangeUserName}
+                />
+                <span></span>
+                <label>Username: </label>
+              </div>
 
-            <div className={classes.txt_field}>
-              <input
-                type="password"
-                required
-                value={this.state.password}
-                onChange={this.onChangePassword}
-              />
-              <span></span>
-              <label>Password: </label>
-            </div>
+              <div className={classes.txt_field}>
+                <input
+                  type="password"
+                  required
+                  value={this.state.password}
+                  onChange={this.onChangePassword}
+                />
+                <span></span>
+                <label>Password: </label>
+              </div>
 
-            <div className={classes.txt_field}>
+              <div className={classes.txt_field}>
+                <input
+                  type="password"
+                  required
+                  value={this.state.confirm_password}
+                  onChange={this.onChangeConfirmPassword}
+                />
+                <span></span>
+                <label>Confirm Password: </label>
+              </div>
               <input
-                type="password"
-                required
-                value={this.state.confirm_password}
-                onChange={this.onChangeConfirmPassword}
+                type="submit"
+                value="Save Profile"
+                className={classes.submit}
               />
-              <span></span>
-              <label>Confirm Password: </label>
-            </div>
-            <input
-              type="submit"
-              value="Save Profile"
-              className={classes.submit}
-            />
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

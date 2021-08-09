@@ -37,62 +37,63 @@ class login extends Component {
   render() {
     const { UI } = this.props;
     return (
-      <div className={classes.container}>
-        <div className={classes.imgContainer}>
-          <img src={logo} />
-        </div>
-        <div className={classes.center}>
-          <h1>Login</h1>
-          {UI.error !== null && <div className={classes.error}>{UI.error}</div>}
-          <form onSubmit={this.handleSubmit}>
-            <div className={classes.txt_field}>
-              <input
-                type="text"
-                required
-                value={this.state.username}
-                onChange={this.onChangeUsername}
-              />
-              <span></span>
-              <label>Username: </label>
-            </div>
+      <React.Fragment>
+        <div className={classes.container}>
+          <div className={classes.center}>
+            <h1>Login</h1>
+            {UI.error !== null && (
+              <div className={classes.error}>{UI.error}</div>
+            )}
+            <form onSubmit={this.handleSubmit}>
+              <div className={classes.txt_field}>
+                <input
+                  type="text"
+                  required
+                  value={this.state.username}
+                  onChange={this.onChangeUsername}
+                />
+                <span></span>
+                <label>Username: </label>
+              </div>
 
-            <div className={classes.txt_field}>
-              <input
-                type="password"
-                required
-                value={this.state.password}
-                onChange={this.onChangePassword}
-              />
-              <span></span>
-              <label>Password: </label>
-            </div>
-            <div className={classes.pass}>
-              <Link to="/users/forgotpassword">forgot password?</Link>
-            </div>
-            <div className={classes.signup_link}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                disabled={UI.loading && true}
-              >
-                login
-                {UI.loading && (
-                  <CircularProgress
-                    className={classes.progress}
-                    size={25}
-                  ></CircularProgress>
-                )}
-              </Button>
-              <br />
-              <br />
-              <label>Don't have an account?</label>
-              <Link to="../user/signup">Sign Up</Link>
-            </div>
-          </form>
+              <div className={classes.txt_field}>
+                <input
+                  type="password"
+                  required
+                  value={this.state.password}
+                  onChange={this.onChangePassword}
+                />
+                <span></span>
+                <label>Password: </label>
+              </div>
+              <div className={classes.pass}>
+                <Link to="/users/forgotpassword">forgot password?</Link>
+              </div>
+              <div className={classes.signup_link}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  disabled={UI.loading && true}
+                >
+                  login
+                  {UI.loading && (
+                    <CircularProgress
+                      className={classes.progress}
+                      size={25}
+                    ></CircularProgress>
+                  )}
+                </Button>
+                <br />
+                <br />
+                <label>Don't have an account?</label>
+                <Link to="../user/signup">Sign Up</Link>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

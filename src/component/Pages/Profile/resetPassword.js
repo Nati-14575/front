@@ -1,20 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import withStyles from "@material-ui/core/styles/withStyles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 import { resetPass } from "../../../store/redux/actions/userActions";
 import styler from "./form.module.css";
-
-const styles = (theme) => ({
-  ...theme.spreadIt,
-  resetForm: {
-    maxWidth: "300px",
-  },
-});
 
 const textStyle = {
   display: "inline",
@@ -24,10 +12,13 @@ const textStyle = {
   textAlign: "center",
 };
 
-function ResetPassword({ resetPass, classes, UI, history }) {
+function ResetPassword({ resetPass, history }) {
   const [inputFields, setInputFields] = useState({
     password: "",
     confirmPassword: "",
+  });
+  const [resetErrors, setError] = useState({
+    resetError: false,
   });
 
   let token;
@@ -42,7 +33,15 @@ function ResetPassword({ resetPass, classes, UI, history }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    resetPass(token, inputFields, history);
+    if (inputFields.password === inputFields.confirmPassword) {
+      resetPass(token, inputFields, history);
+    } else {
+      setTimeout(() => {
+        setError({
+          resetError: true,
+        });
+      }, 2000);
+    }
   };
 
   const handleChange = (event) => {
@@ -53,49 +52,57 @@ function ResetPassword({ resetPass, classes, UI, history }) {
   };
 
   return (
-    <div className={styler.container}>
-      <div className={styler.center}>
-        {!noToken ? (
-          <>
-            {UI.error && <div className={styler.error}>{UI.error.message}</div>}
-            <form onSubmit={handleSubmit}>
-              <div className={styler.txt_field}>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  label="New password"
-                  className={styler.textField}
-                  value={inputFields.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className={styler.txt_field}>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  label="Confirm Password"
-                  className={styler.textField}
-                  value={inputFields.confirmPassword}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <input type="submit" value="Reset" className={classes.submit} />
-              </div>
-            </form>
-          </>
-        ) : (
-          <h1 id="notFound" style={textStyle}>
-            An email has been successfully sent to your account. Follow the
-            instructions to reset your password
-          </h1>
-        )}
+    <React.Fragment>
+      <div className={styler.container}>
+        <div className={styler.center}>
+          {!noToken ? (
+            <>
+              {resetErrors.resetError && (
+                <div className={styler.error}>passwords did not match</div>
+              )}
+              <form onSubmit={handleSubmit}>
+                <div className={styler.txt_field}>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="New password"
+                    className={styler.textField}
+                    value={inputFields.password}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className={styler.txt_field}>
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Confirm Password"
+                    className={styler.textField}
+                    value={inputFields.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <input
+                    type="submit"
+                    value="Reset"
+                    className={styler.submit}
+                  />
+                </div>
+              </form>
+            </>
+          ) : (
+            <h1 id="notFound" style={textStyle}>
+              An email has been successfully sent to your account. Follow the
+              instructions to reset your password
+            </h1>
+          )}
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 
@@ -103,6 +110,4 @@ const mapStateToProps = (state) => {
   return { UI: state.UI };
 };
 
-export default connect(mapStateToProps, { resetPass })(
-  withStyles(styles)(ResetPassword)
-);
+export default connect(mapStateToProps, { resetPass })(ResetPassword);

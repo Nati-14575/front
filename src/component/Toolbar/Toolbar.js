@@ -5,12 +5,14 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import classes from "./Toolbar.module.css";
 import Drawertoggle from "./Sidedrawer/Drawertoggle";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import logo from "../../assets/Toolbar/logo.png";
-import eventIcon from "../../assets/Toolbar/event.png";
-import loginIcon from "../../assets/Toolbar/login.png";
-import signupIcon from "../../assets/Toolbar/signup.png";
-import editIcon from "../../assets/Toolbar/edit.png";
-import exitIcon from "../../assets/Toolbar/exit.png";
+import EditIcon from "@material-ui/icons/Edit";
+import DateRangeIcon from "@material-ui/icons/DateRange";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+
 import { userLogout } from "../../store/redux/actions/userActions";
 
 class toolbar extends Component {
@@ -34,7 +36,7 @@ class toolbar extends Component {
 
   render() {
     const { reducer } = this.props;
-    let checker;
+    console.log(reducer.adminrole);
     return (
       <header className={classes.toolbar}>
         <nav className={classes.toolbar_navigation}>
@@ -43,22 +45,18 @@ class toolbar extends Component {
               onDrawerToggleCLicked={this.props.onDrawerToggleCLicked}
             />
           </div>
-          {this.loginLogoChecker() && (
-            <div className={classes.toolbar_logo}>
-              <Link to="/">
-                <div className={classes.imgContainer}>
-                  <img src={logo} />
-                </div>
-              </Link>
-            </div>
-          )}
+          <div className={classes.toolbar_logo}>
+            <Link to="/">
+              <label>Student Event</label>
+            </Link>
+          </div>
           <div className={classes.spacer}></div>
           <div className={classes.toolbar_navigation_items}>
             <ul>
               <li>
                 <Link to="/events" className={classes.toolbar_navigation_link}>
                   <div className={classes.iconContainer}>
-                    <img src={eventIcon} />
+                    <DateRangeIcon fontSize="large" />
                   </div>
                 </Link>
               </li>
@@ -70,7 +68,9 @@ class toolbar extends Component {
                         to="/create"
                         className={classes.toolbar_navigation_link}
                       >
-                        Create Event
+                        <div className={classes.iconContainer}>
+                          <EditIcon fontSize="large" />
+                        </div>
                       </Link>
                     </li>
                   )}
@@ -81,7 +81,7 @@ class toolbar extends Component {
                         className={classes.toolbar_navigation_link}
                       >
                         <div className={classes.iconContainer}>
-                          <img src={editIcon} />
+                          <AccountCircleIcon fontSize="large" />
                         </div>
                       </Link>
                     )}
@@ -92,7 +92,7 @@ class toolbar extends Component {
                       className={classes.toolbar_navigation_link}
                     >
                       <div className={classes.iconContainer}>
-                        <img src={exitIcon} />
+                        <ExitToAppIcon fontSize="large" color="white" />
                       </div>
                     </a>
                   </li>
@@ -105,7 +105,7 @@ class toolbar extends Component {
                       className={classes.toolbar_navigation_link}
                     >
                       <div className={classes.iconContainer}>
-                        <img src={loginIcon} />
+                        <VpnKeyIcon fontSize="large" />
                       </div>
                     </Link>
                   </li>
@@ -115,7 +115,7 @@ class toolbar extends Component {
                       className={classes.toolbar_navigation_link}
                     >
                       <div className={classes.iconContainer}>
-                        <img src={signupIcon} />
+                        <AddCircleIcon fontSize="large" />
                       </div>
                     </Link>
                   </li>

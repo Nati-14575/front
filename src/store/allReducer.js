@@ -37,7 +37,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         adminrole: false,
       };
+    default: {
+    }
   }
+
   return state;
 };
 

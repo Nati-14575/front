@@ -9,9 +9,6 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   LOADING,
-  UPLOAD_PHOTO,
-  SET_NOTIFICATIONS,
-  MARK_NOTIFICATIONS_READ,
 } from "../types";
 
 export const userLogin = (userData, history) => (dispatch) => {
@@ -27,7 +24,6 @@ export const userLogin = (userData, history) => (dispatch) => {
       password: userData.password,
     })
     .then((res) => {
-      console.log(res);
       dispatch({
         type: USER_LOGGEDIN,
       });
@@ -46,13 +42,12 @@ export const userLogin = (userData, history) => (dispatch) => {
       history.push("/");
     })
     .catch((err) => {
-      console.log(err);
       dispatch({
         type: LOADING_UI,
       });
       dispatch({
-        type: SET_ERRORS,
-        error: err,
+        type: "SET_ERRORS",
+        error: err.response.data.message,
       });
       setTimeout(() => {
         dispatch({
@@ -98,21 +93,23 @@ export const userSignup = (userData, history) => (dispatch) => {
     })
     .then((res) => {
       dispatch({
-        type: LOADING_UI,
+        type: "LOADING_UI",
       });
       history.push("/users/verify");
     })
     .catch((err) => {
-      console.log(err);
       dispatch({
-        type: SET_ERRORS,
+        type: "SET_ERRORS",
         error: err.response.data.message,
       });
       setTimeout(() => {
         dispatch({
-          type: CLEAR_ERRORS,
+          type: "CLEAR_ERRORS",
         });
       }, 2500);
+      dispatch({
+        type: "LOADING_UI",
+      });
     });
 };
 
@@ -122,23 +119,6 @@ export const userLogout = (history) => (dispatch) => {
     .then(() => {
       dispatch({ type: USER_LOGGEDOUT });
       dispatch({ type: REMOVE_USER });
-    })
-    .catch((err) => console.error(err));
-};
-
-export const uploadImage = (formData) => (dispatch) => {
-  axios
-    .patch("/users/", formData)
-    .then((res) => {
-      dispatch({
-        type: UPLOAD_PHOTO,
-        user: res.data.result._id,
-        photo: res.data.result.photo,
-      });
-      dispatch({
-        type: SET_USER,
-        user: res.data.result,
-      });
     })
     .catch((err) => console.error(err));
 };
@@ -196,6 +176,7 @@ export const forgetPass = (email, history) => (dispatch) => {
 };
 
 export const resetPass = (token, newPass, history) => (dispatch) => {
+  console.log(newPass);
   dispatch({
     type: LOADING_UI,
   });
@@ -237,34 +218,9 @@ export const resetPass = (token, newPass, history) => (dispatch) => {
     });
 };
 
-export const setNotifications = () => (dispatch) => {
-  axios
-    .get("/users/notifications")
-    .then((res) =>
-      dispatch({ type: SET_NOTIFICATIONS, payload: res.data.data })
-    )
-    .catch((err) => console.error(err));
-
-  setInterval(() => {
-    axios
-      .get("/users/notifications")
-      .then((res) =>
-        dispatch({ type: SET_NOTIFICATIONS, payload: res.data.data })
-      )
-      .catch((err) => console.error(err));
-  }, 10000);
-};
-
-export const markNotificationsRead = () => (dispatch) => {
-  dispatch({
-    type: MARK_NOTIFICATIONS_READ,
-  });
-  axios.post("/users/notifications").catch((err) => console.error(err));
-};
-
 export const authCheck = () => (dispatch) => {
   axios
-    .get("/users/authcheck")
+    .get("https://churchevent14575.herokuapp.com/users/authcheck")
     .then((res) => {
       if (res.data.user) {
         dispatch({

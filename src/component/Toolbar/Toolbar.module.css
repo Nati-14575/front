@@ -2,7 +2,7 @@
   position: relative;
   top: 0;
   left: 0;
-  background: linear-gradient(120deg, #2980b9, #8e44ad);
+  background-color: #383b3d;
   width: 100%;
   height: 80px;
 }
@@ -16,20 +16,24 @@
 
 .imgContainer {
   position: absolute;
-  top: 10%;
-  height: 200px;
-  width: 180px;
+  top: 5%;
+  height: 140px;
+  width: 140px;
 }
 
 .imgContainer img {
   width: 100%;
   height: 100%;
 }
+
 .iconContainer {
-  height: 40px;
-  width: 40px;
+  
+  height: 30px;
+  width: 30px;
+  margin: 10px;
 }
 .iconContainer img {
+  outline: white !important;
   width: 100%;
   height: 100%;
 }

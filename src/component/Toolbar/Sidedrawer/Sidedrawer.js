@@ -5,9 +5,6 @@ import { connect } from "react-redux";
 import classes from "./Sidedrawer.module.css";
 
 class sidedrawer extends Component {
-  constructor(props) {
-    super(props);
-  }
   setOff = () => {
     this.props.setAuthentication();
     this.props.setRole();
@@ -17,50 +14,64 @@ class sidedrawer extends Component {
 
   render() {
     return (
-      <nav className={classes.side_drawer}>
-        <ul>
-          <li>
-            <Link to="/" className={classes.side_drawer_link}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/events" className={classes.side_drawer_link}>
-              Events
-            </Link>
-          </li>
-          {this.props.reducer.isAuthenticated ? (
-            <>
-              {this.props.reducer.adminrole && (
-                <li>
-                  <Link to="/create" className={classes.side_drawer_link}>
-                    Create Event
-                  </Link>
-                </li>
-              )}
-              <li>
-                <Link
-                  to={"user/editprofile/" + this.props.reducer.currentUser._id}
-                  className={classes.side_drawer_link}
-                >
-                  Edit Profile
-                </Link>
-              </li>
-              <li>
-                <a onClick={this.setOff} className={classes.side_drawer_link}>
-                  Log out
-                </a>
-              </li>
-            </>
-          ) : (
+      <>
+        <nav className={classes.side_drawer}>
+          <ul>
             <li>
-              <Link to="/user/login" className={classes.side_drawer_link}>
-                Login/Signup
+              <Link to="/" className={classes.side_drawer_link}>
+                Home
               </Link>
             </li>
-          )}
-        </ul>
-      </nav>
+            <li>
+              <Link to="/events" className={classes.side_drawer_link}>
+                Events
+              </Link>
+            </li>
+            {this.props.reducer.isAuthenticated ? (
+              <>
+                {this.props.reducer.adminrole && (
+                  <li>
+                    <Link to="/create" className={classes.side_drawer_link}>
+                      Create Event
+                    </Link>
+                  </li>
+                )}
+                <li>
+                  <Link
+                    to={
+                      "user/editprofile/" + this.props.reducer.currentUser._id
+                    }
+                    className={classes.side_drawer_link}
+                  >
+                    Edit Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    onClick={this.setOff}
+                    className={classes.side_drawer_link}
+                  >
+                    Log out
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/user/login" className={classes.side_drawer_link}>
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/user/signup" className={classes.side_drawer_link}>
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </>
     );
   }
 }

@@ -6,22 +6,30 @@ import { connect } from "react-redux";
 import classes from "./oneEvent.module.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Pagination from "../../../component/Pagination";
+import Comments from "../../Comments";
 
 class event extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      event: [],
+      event: null,
       comments: [],
       comment: "",
       username: "",
       loginCorrect: true,
       commentPosted: false,
+      currentPage: 1,
+      postsPerPage: 5,
     };
     this.deleteEvent = this.deleteEvent.bind(this);
   }
 
   componentDidMount() {
+    this.setState({
+      username: this.props.reducer.currentUser.username,
+    });
+
     axios
       .get(
         "https://churchevent14575.herokuapp.com/events/" +
@@ -33,6 +41,16 @@ class event extends Component {
         });
       });
 
+    axios
+      .get("https://churchevent14575.herokuapp.com/comments/")
+      .then((result) => {
+        this.setState({
+          comments: result.data,
+        });
+      });
+  }
+
+  componentDidUpdate() {
     axios
       .get("https://churchevent14575.herokuapp.com/comments/")
       .then((result) => {
@@ -70,6 +88,7 @@ class event extends Component {
           this.setState({ commentPosted: true });
           setTimeout(() => this.setState({ commentPosted: false }), 2000);
         });
+
       this.setState({ comment: "" });
     } else {
       this.setState({ loginCorrect: false });
@@ -78,92 +97,146 @@ class event extends Component {
   };
 
   render() {
+    const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+    const currentPosts = this.state.comments.slice(
+      indexOfFirstPost,
+      indexOfLastPost
+    );
+
+    const paginate = (pageNumber) => {
+      this.setState({
+        currentPage: pageNumber,
+      });
+    };
     return (
-      <div className={classes.container}>
-        <h3 className={classes.h3}>Event</h3>
-        <table className={classes.content_table}>
-          <thead className="thead-light">
-            <tr>
-              <th>Poster Name</th>
-              <th>Event Name</th>
-              <th>Description</th>
-              <th>Duration</th>
-              <th>Date</th>
-              <th>Location</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr key={this.state.event._id}>
-              <td>{this.state.event.username}</td>
-              <td>{this.state.event.eventname}</td>
-              <td>{this.state.event.description}</td>
-              <td>{Number(this.state.event.duration)}</td>
-              <td>
-                {new Date(this.state.event.date).toLocaleDateString("en-us")}
-              </td>
-              <td>{this.state.event.location}</td>
-              {this.state.event.username ===
-                this.props.reducer.currentUser.username && (
-                <>
-                  <Link to={"/edit/" + this.state.event._id}>Edit</Link> |
-                  <a
-                    href="#"
-                    onClick={() => {
-                      this.deleteEvent(this.state.event._id);
-                    }}
-                  >
-                    Delete
-                  </a>
-                </>
-              )}
-            </tr>
-          </tbody>
-        </table>
-        <div className={classes.commentSection}>
-          {!this.state.loginCorrect && (
-            <div className={classes.error}>
-              <label>Please log in to your account</label>
-            </div>
-          )}
-          {this.state.commentPosted && (
-            <div className={classes.success}>
-              <label>Comment posted</label>
-            </div>
-          )}
-          <TextField
-            required
-            onChange={this.onChangeComment}
-            label="comment"
-            placeholder="write a comment"
-            variant="outlined"
-            multiline
-            rows={3}
-            className={classes.txt_field}
-          />
-          <span></span>
-          <center>
-            <Button
-              onClick={this.onSubmit}
-              variant="contained"
-              color="primary"
-              className={classes.postButton}
-            >
-              comment
-            </Button>
-          </center>
-        </div>
-        <div className={classes.commentShower}>
-          <h3>Comments</h3>
-          {this.state.comments.map((comment) => {
-            return (
-              <div className={classes.commentContainer}>
-                <div className={classes.username}>{comment.username}</div>
-                <div className={classes.comment}>{comment.comment}</div>
+      <>
+        <div className={classes.container}>
+          <h3 className={classes.h3}>Event</h3>
+          {this.state.event && (
+            <>
+              <div className={classes.eventContainer}>
+                <div className={classes.row}>
+                  <div className={classes.headings}>Poster Name</div>
+                  <div className={classes.body}>
+                    {this.state.event.username}
+                  </div>
+                </div>
+                <div className={classes.row}>
+                  <div className={classes.headings}>Event Name</div>
+                  <div className={classes.body}>
+                    {this.state.event.eventname}
+                  </div>
+                </div>
+                <div className={classes.row}>
+                  <div className={classes.headings}>Description</div>
+                  <div className={classes.body}>
+                    {this.state.event.description}
+                  </div>
+                </div>
+                <div className={classes.row}>
+                  <div className={classes.headings}>Duration</div>
+                  <div className={classes.body}>
+                    {this.state.event.duration}
+                  </div>
+                </div>
+                <div className={classes.row}>
+                  <div className={classes.headings}>Date</div>
+                  <div className={classes.body}>
+                    {new Date(this.state.event.date).toLocaleDateString(
+                      "en-us"
+                    )}
+                  </div>
+                </div>
+                <div className={classes.row}>
+                  <div className={classes.headings}>Location</div>
+                  <div className={classes.body}>
+                    {this.state.event.username}
+                  </div>
+                </div>
+
+                {this.state.event.username ===
+                  this.props.reducer.currentUser.username && (
+                  <div className={classes.editDelete}>
+                    <div className={classes.each1}>
+                      <Link to={"/edit/" + this.state.event._id}>Edit</Link>
+                    </div>
+                    <div className={classes.each}>
+                      <a
+                        href="/"
+                        onClick={() => {
+                          this.deleteEvent(this.state.event._id);
+                        }}
+                      >
+                        Delete
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
-            );
-          })}
+              <div className={classes.commentSection}>
+                {!this.state.loginCorrect && (
+                  <div className={classes.error}>
+                    <label>Please log in to your account</label>
+                  </div>
+                )}
+                {this.state.commentPosted && (
+                  <div className={classes.success}>
+                    <label>Comment posted</label>
+                  </div>
+                )}
+                <TextField
+                  required
+                  onChange={this.onChangeComment}
+                  label="comment"
+                  placeholder="write a comment"
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  className={classes.text_field}
+                />
+                <span></span>
+                <center>
+                  <Button
+                    onClick={this.onSubmit}
+                    variant="contained"
+                    color="primary"
+                    className={classes.postButton}
+                  >
+                    Comment
+                  </Button>
+                </center>
+              </div>
+              <div className={classes.commentShower}>
+                <h3>Comments</h3>
+                {this.state.comments.length > 0 ? (
+                  currentPosts.map((comment) => {
+                    return (
+                      <Comments
+                        username={comment.username}
+                        comment={comment.comment}
+                      />
+                    );
+                  })
+                ) : (
+                  <div className={classes.noComment}>
+                    <label>No Comment</label>
+                  </div>
+                )}
+                {this.state.comments.length > 0 && (
+                  <div>
+                    <Pagination
+                      postsPerPage={this.state.postsPerPage}
+                      totalPosts={this.state.comments.length}
+                      paginate={paginate}
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
-      </div>
+      </>
     );
   }
 }

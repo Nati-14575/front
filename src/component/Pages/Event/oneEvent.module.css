@@ -3,98 +3,46 @@
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
+  margin-top: 30px;
+  font-weight: bolder;
 }
 
-.content_table {
-  border-collapse: collapse;
-  margin: 35px 10%;
-  font-size: 0.9rem;
-  width: 80%;
-  display: block;
-  align-content: center;
-  border-radius: 10px;
-  box-shadow: 10px 10px 20px rgb(0, 0, 0, 0.6);
+.eventContainer {
   display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin: 30px;
+  border-radius: 5px;
 }
 
-.h3 {
-  margin: 40px 0;
-  font-weight: bold;
-  align-self: center;
-  align-content: center;
-  text-align: center;
-}
-
-.content_table thead {
-  background: white;
-  color: #009879;
-  width: 50%;
+.row {
   display: flex;
-  flex-flow: column;
-  align-content: center;
-  font-weight: bold;
+  flex-direction: row;
+  padding: 10px;
+  margin: 10px;
+  background-color: #383b3d;
+  border-radius: 5px;
 }
 
-.content_table tbody {
-  background: linear-gradient(120deg, #2980b9, #8e44ad);
+.headings {
+  font-weight: bold;
   width: 50%;
 }
 
-.content_table thead tr {
-  width: 100%;
-  align-content: center;
-  display: flex;
-  flex-flow: column;
+.body {
+  width: 50%;
 }
 
-.content_table th,
-.content_table td {
-  padding: 5px 5px;
+.row:nth-child(odd) {
+  border-radius: 5px;
+  color: #ffffff;
 }
-
-.content_table tbody tr {
-  font-weight: bold;
-  color: white;
-  height: 100px;
-  width: 100%;
-  display: flex;
-  flex-flow: column;
+.row:nth-child(even) {
+  background: transparent;
 }
-
-.content_table tbody tr td {
-  align-content: center;
-  text-align: left;
-  width: 80%;
-  margin: 10px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid #dddddd;
+.row:last-child {
+  border-bottom: 1px solid #383b3d;
 }
-
-.content_table tbody tr td:last-of-type {
-  border-bottom: none;
-  margin-bottom: 0px;
-}
-
-.content_table tbody tr td a {
-  text-decoration: none;
-}
-
-.content_table thead tr th {
-  margin: 10px;
-  width: 80%;
-  display: block;
-  text-align: left;
-  align-content: center;
-  padding-bottom: 40px;
-  border-bottom: 1px solid #009879;
-}
-
-.content_table thead tr th:last-of-type {
-  border-bottom: none;
-  margin-bottom: 0px;
-}
-
-
 @media (max-width: 500px) {
   .content_table {
     width: 80%;
@@ -124,11 +72,19 @@
   box-shadow: 10px 10px 10px rgb(0, 0, 0, 0.4);
 }
 
+.text_field {
+  background-color: rgba(250, 249, 249, 0.644);
+  top: 15%;
+  width: 50%;
+  margin-bottom: 0px;
+}
+
 .commentSection .postButton {
-  margin-top: 20px;
-  background: linear-gradient(120deg, #2980b9, #8e44ad);
+  margin: 10px 0px;
+  background-color: rgba(250, 249, 249, 0.644);
   width: 80%;
   height: 40px;
+  color: #000;
 }
 
 .commentShower {
@@ -142,8 +98,11 @@
 }
 
 .commentShower h3 {
-  text-align: center;
+  background-color: #383b3d;
+  text-align: left;
   font-weight: bold;
+  padding: 20px;
+  color: #ffffff;
 }
 
 .commentContainer {
@@ -162,6 +121,54 @@
   margin: 20px;
 }
 
+.editDelete {
+  margin-top: 20px;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  background: transparent;
+}
+
+.each {
+  width: 50%;
+  margin-right: auto;
+  border-radius: 5px;
+}
+.each1 {
+  width: 50%;
+  border-radius: 5px;
+  align-content: center;
+}
+.each a {
+  color: white !important;
+  background-color: #383b3d;
+  display: block;
+  padding: 10px;
+  width: 45%;
+  font-weight: bolder;
+  text-decoration: none;
+  margin: 10px;
+  border-radius: 5px;
+  margin-top: 0px;
+}
+
+.each1 a {
+  background: white;
+  width: 45%;
+  color: #383b3d;
+  display: block;
+  padding: 10px;
+  font-weight: bolder;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.each a:hover {
+  text-decoration: none;
+}
+
 .error {
   display: flex;
   height: 40px;
@@ -169,12 +176,6 @@
   width: 70%;
   background-color: red;
   border-radius: 10px;
-}
-
-.error label {
-  margin: 10px 10px;
-  color: white;
-  font-weight: bold;
 }
 
 .success {
@@ -189,4 +190,11 @@
   margin: 10px 10px;
   color: white;
   font-weight: bold;
+}
+.noComment {
+  color: blue;
+  font-weight: bolder;
+  display: flex;
+  margin: 20px 0px;
+  justify-content: center;
 }

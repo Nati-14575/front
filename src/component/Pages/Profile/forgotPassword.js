@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
@@ -38,45 +37,47 @@ class forgotPassword extends Component {
     const { classes, UI } = this.props;
 
     return (
-      <div className={styler.container}>
-        <div className={styler.center}>
-          {UI.error && <div className={styler.error}>{UI.error.message}</div>}
-          <form className={styler.form} onSubmit={this.handleSubmit}>
-            <div className={styler.txt_field}>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                label="Email"
-                className={classes.textField}
-                value={this.state.email}
-                onChange={this.onChangeEmail}
-                required
-              />
-              <span></span>
-              <label>Email: </label>
-            </div>
+      <React.Fragment>
+        <div className={styler.container}>
+          <div className={styler.center}>
+            {UI.error && <div className={styler.error}>{UI.error.message}</div>}
+            <form className={styler.form} onSubmit={this.handleSubmit}>
+              <div className={styler.txt_field}>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  label="Email"
+                  className={classes.textField}
+                  value={this.state.email}
+                  onChange={this.onChangeEmail}
+                  required
+                />
+                <span></span>
+                <label>Email: </label>
+              </div>
 
-            <div>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={styler.submit}
-                disabled={UI.loading && true}
-              >
-                Reset
-                {UI.loading && (
-                  <CircularProgress
-                    className={classes.progress}
-                    size={25}
-                  ></CircularProgress>
-                )}
-              </Button>
-            </div>
-          </form>
+              <div>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={styler.submit}
+                  disabled={UI.loading && true}
+                >
+                  Reset
+                  {UI.loading && (
+                    <CircularProgress
+                      className={classes.progress}
+                      size={25}
+                    ></CircularProgress>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

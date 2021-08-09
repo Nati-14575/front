@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import classes from "./Drawertoggle.module.css";
 class drawertoggle extends Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     return (
       <button

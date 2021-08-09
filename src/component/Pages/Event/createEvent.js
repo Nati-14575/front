@@ -83,83 +83,81 @@ class createEvent extends Component {
     };
 
     axios
-      .post("http://localhost:5000/events/add", event)
+      .post("https://churchevent14575.herokuapp.com/events/add", event)
       .then((result) => console.log(result.data));
     this.props.history.push("/events");
   };
 
   render() {
     return (
-      <div className={classes.container}>
-        <div className={classes.imgContainer}>
-          <img src={logo} />
-        </div>
-        <div className={classes.center}>
-          <h1>Create Event</h1>
-          <form onSubmit={this.onSubmit}>
-            <div className={classes.txt_field}>
-              <input type="text" required value={this.state.username} />
-              <span></span>
-              <label>Poster name: </label>
-            </div>
-            <div className={classes.txt_field}>
-              <input
-                type="text"
-                required
-                value={this.state.eventname}
-                onChange={this.onChangeEventName}
-              />
-              <span></span>
-              <label>Event name: </label>
-            </div>
-            <div className={classes.txt_field}>
-              <input
-                type="text"
-                required
-                value={this.state.location}
-                onChange={this.onChangeLocation}
-              />
-              <span></span>
-              <label>Location: </label>
-            </div>
-            <div className={classes.txt_field}>
-              <textarea
-                type="text"
-                required
-                value={this.state.description}
-                onChange={this.onChangeDescription}
-              />
-              <span></span>
-              <label>Description: </label>
-            </div>
-            <div className={classes.txt_field}>
-              <input
-                type="text"
-                required
-                value={this.state.duration}
-                onChange={this.onChangeDuration}
-              />
-              <span></span>
-              <label>Duration(in hours): </label>
-            </div>
-            <div className={classes.txt_field}>
-              <div>
-                <DatePicker
-                  selected={this.state.date}
-                  onChange={this.onChangeDate}
+      <React.Fragment>
+        <div className={classes.container}>
+          <div className={classes.center}>
+            <h1>Create Event</h1>
+            <form onSubmit={this.onSubmit}>
+              <div className={classes.txt_field}>
+                <input type="text" required value={this.state.username} />
+                <span></span>
+                <label>Poster name: </label>
+              </div>
+              <div className={classes.txt_field}>
+                <input
+                  type="text"
+                  required
+                  value={this.state.eventname}
+                  onChange={this.onChangeEventName}
                 />
                 <span></span>
-                {/* <label>Date: </label> */}
+                <label>Event name: </label>
               </div>
-            </div>
-            <input
-              type="submit"
-              value="Create Event"
-              className={classes.submit}
-            />
-          </form>
+              <div className={classes.txt_field}>
+                <input
+                  type="text"
+                  required
+                  value={this.state.location}
+                  onChange={this.onChangeLocation}
+                />
+                <span></span>
+                <label>Location: </label>
+              </div>
+              <div className={classes.txt_field}>
+                <textarea
+                  type="text"
+                  required
+                  value={this.state.description}
+                  onChange={this.onChangeDescription}
+                />
+                <span></span>
+                <label>Description: </label>
+              </div>
+              <div className={classes.txt_field}>
+                <input
+                  type="text"
+                  required
+                  value={this.state.duration}
+                  onChange={this.onChangeDuration}
+                />
+                <span></span>
+                <label>Duration(in hours): </label>
+              </div>
+              <div className={classes.txt_field}>
+                <div>
+                  <DatePicker
+                    selected={this.state.date}
+                    onChange={this.onChangeDate}
+                  />
+                  <span></span>
+                </div>
+              </div>
+              <input
+                type="submit"
+                value="Create Event"
+                className={classes.submit}
+              />
+            </form>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
